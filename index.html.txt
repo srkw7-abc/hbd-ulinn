@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Untuk Ulin ❤️</title>
+
+    <!-- Google Fonts: Poppins & Sacramento -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;1,300&family=Sacramento&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: #1a1514;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            background: linear-gradient(180deg, #241d1c 0%, #120e0e 100%);
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            animation: fadeIn 0.8s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .cursive {
+            font-family: 'Sacramento', cursive;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .sub-title {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #d1a168;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: #8c4351;
+            color: #ffffff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(140, 67, 81, 0.4);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* --- SCREEN 1 --- */
+        .flower-circle-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+
+        .ring-svg {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            animation: spin 15s linear infinite;
+        }
+
+        .flower-center {
+            font-size: 2.2rem;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .flower-bg-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #89c4f4 0%, #192a56 100%);
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 1;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8rem;
+            overflow: hidden;
+        }
+
+        .flower-bg-overlay.show {
+            opacity: 0.9;
+        }
+
+        /* Screen 2 */
+        .switch-btn {
+            width: 60px; height: 60px; background: #fff; border-radius: 12px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.8rem; cursor: pointer; margin-top: 20px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+            color: #333;
+        }
+
+        /* Screen 3 */
+        .banner-box {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px 20px;
+            width: 100%;
+        }
+
+        /* Screen 4 */
+        .vinyl {
+            width: 170px; height: 170px;
+            background: repeating-radial-gradient(#111, #111 6px, #222 7px, #222 8px);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            margin: 20px 0; border: 4px solid #333; cursor: pointer;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .vinyl-center { width: 50px; height: 50px; background: #e84118; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 0.8rem; }
+        .spinning { animation: spin 4s linear infinite; }
+
+        /* Screen 5 */
+        .card-note {
+            background: #fff8eb;
+            color: #2c3e50;
+            padding: 25px;
+            border-radius: 12px;
+            width: 100%;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        /* --- SCREEN 6 --- */
+        .cake-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 10px 0;
+            touch-action: none;
+            cursor: pointer;
+        }
+
+        .match-wrapper {
+            position: absolute;
+            top: -20px;
+            right: 0px;
+            width: 80px;
+            height: 80px;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0;
+            transform: translate(50px, -50px) rotate(45deg);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .match-stick {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 65px;
+            height: 8px;
+            background: #e0ac69;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            transform: rotate(-35deg);
+            transform-origin: right center;
+        }
+
+        .match-head {
+            position: absolute;
+            left: -6px;
+            top: -2px;
+            width: 12px;
+            height: 12px;
+            background: #c0392b;
+            border-radius: 50%;
+        }
+
+        .match-fire {
+            position: absolute;
+            left: -16px;
+            top: -16px;
+            width: 16px;
+            height: 24px;
+            background: radial-gradient(ellipse at bottom, #ffffff 0%, #fffae6 30%, #ffbe3b 60%, #ff4500 100%);
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 15px #ffbe3b, 0 0 25px #ff4500;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            animation: flicker 0.1s infinite alternate;
+        }
+
+        .match-wrapper.show-entry { opacity: 1; transform: translate(0px, 0px) rotate(0deg); }
+        .match-wrapper.strike-strike { transform: translate(-10px, 20px) rotate(-10deg); }
+        .match-wrapper.light-digit-2 { transform: translate(-95px, 25px) rotate(-15deg); }
+        .match-wrapper.light-digit-0 { transform: translate(-50px, 25px) rotate(-15deg); }
+        .match-wrapper.fade-away { opacity: 0; transform: translate(60px, -40px) rotate(45deg); }
+
+        .candles-number-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            position: relative;
+            z-index: 3;
+            margin-bottom: -15px;
+        }
+
+        .candle-digit {
+            position: relative;
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #ffeaa7 0%, #fdcb6e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.5));
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .candle-digit::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 3px;
+            height: 10px;
+            background: #2d3436;
+            border-radius: 2px;
+        }
+
+        .candle-flame {
+            position: absolute;
+            top: -26px;
+            width: 12px;
+            height: 20px;
+            background: radial-gradient(ellipse at bottom, #fffae6 0%, #ffbe3b 50%, #ff4500 100%);
+            border-radius: 50% 50% 20% 20%;
+            z-index: 4;
+            box-shadow: 0 0 12px #ffbe3b, 0 0 20px #ff4500;
+            animation: flicker 0.15s infinite alternate;
+            transform-origin: bottom center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cake-graphic { font-size: 6.5rem; position: relative; z-index: 1; line-height: 1; }
+
+        .smoke {
+            position: absolute;
+            width: 8px; height: 8px;
+            background: rgba(200, 200, 200, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: riseSmoke 1.2s ease-out forwards;
+        }
+
+        /* Screen 7 */
+        .wish-container {
+            position: relative;
+            width: 120px; height: 120px;
+            display: flex; justify-content: center; align-items: center;
+            margin: 25px 0; touch-action: none; cursor: pointer;
+        }
+
+        .svg-ring { position: absolute; top: 0; left: 0; width: 120px; height: 120px; transform: rotate(-90deg); }
+        .circle-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 4; }
+        .circle-progress {
+            fill: none; stroke: #fbc531; stroke-width: 4;
+            stroke-dasharray: 339.29; stroke-dashoffset: 339.29; stroke-linecap: round;
+        }
+
+        .heart-icon { font-size: 2.2rem; z-index: 2; transition: transform 0.3s ease; }
+
+        /* Screen 8 */
+        .letter-box {
+            background: #fff8eb; color: #2c3e50; padding: 22px; border-radius: 12px;
+            text-align: left; max-height: 60vh; overflow-y: auto; font-size: 0.9rem; line-height: 1.8;
+            border-left: 4px solid #e17055;
+            user-select: text; -webkit-user-select: text;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .letter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #d63031;
+            margin-bottom: 12px;
+        }
+
+        .letter-p {
+            margin-bottom: 12px;
+        }
+
+        .wish-list {
+            margin: 10px 0 15px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .wish-list li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 8px;
+        }
+
+        .wish-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #e17055;
+            font-weight: bold;
+        }
+
+        .letter-footer {
+            margin-top: 15px;
+            font-style: italic;
+            color: #636e72;
+            border-top: 1px dashed #dfe6e9;
+            padding-top: 10px;
+        }
+
+        .btn-restart {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-restart:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        @keyframes flicker { 0% { transform: scale(1) rotate(-1deg); } 100% { transform: scale(1.05) rotate(1deg); } }
+        @keyframes riseSmoke { 0% { transform: translateY(0) scale(1); opacity: 0.8; } 100% { transform: translateY(-50px) scale(3); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Audio Background Musik -->
+    <audio id="bgMusic" loop src="https://actions.google.com/sounds/v1/ambiences/calm_sea_waves.ogg"></audio>
+
+    <div class="flower-bg-overlay" id="flowerOverlay">🌸🪻🪷🌼🌺</div>
+
+    <!-- SCREEN 1 -->
+    <div class="screen active" id="screen1">
+        <p class="sub-title">SEBUAH RUANG KECIL</p>
+        
+        <div class="flower-circle-container" onclick="triggerFlowerBloom()">
+            <svg class="ring-svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(209, 161, 104, 0.4)" stroke-width="1.5" stroke-dasharray="6 4"/>
+            </svg>
+            <div class="flower-center">❤️</div>
+        </div>
+
+        <div id="heartTextGroup" style="display: none; margin-top: 10px;">
+            <h1 class="cursive" style="color: #ffffff;">Untuk Ulin</h1>
+            <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 5px; color: #d1ccc0;">Dari Maz Kowi</p>
+            <button class="btn" onclick="nextScreen(2)">Ketuk untuk membuka &gt;</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 2 -->
+    <div class="screen" id="screen2">
+        <p class="cursive" id="dark-text" style="font-size: 2.2rem;">kok gelap ya yangg</p>
+        <div class="switch-btn" onclick="turnOnLight()">💡</div>
+        <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.6;">coba nyalain lampunya</p>
+    </div>
+
+    <!-- SCREEN 3 -->
+    <div class="screen" id="screen3">
+        <div class="banner-box">
+            <p style="font-size: 0.8rem; letter-spacing: 2px; color: #fbc531; font-weight: 600; text-transform: uppercase;">✨ surprisee!! ✨</p>
+            <p style="font-size: 0.85rem; opacity: 0.8; color: #d1ccc0; letter-spacing: 1px; margin-top: 4px;">untukmu yangg</p>
+            <h2 class="cursive" style="font-size: 2.2rem; color: #ffffff; margin-top: 2px;">ulinn ke-</h2>
+            <div style="font-size: 4.5rem; font-weight: 700; color: #fbc531; line-height: 1; margin: 5px 0;">20</div>
+            <p style="font-size: 0.85rem; opacity: 0.8; color: #d1ccc0; letter-spacing: 1px;">ini harimuu</p>
+        </div>
+        <button class="btn" onclick="nextScreen(4)">lanjut ➔</button>
+    </div>
+
+    <!-- SCREEN 4 -->
+    <div class="screen" id="screen4">
+        <p style="font-size: 0.9rem; opacity: 0.8; padding: 0 10px;">Special performance khusus buat kanjeng putri... dengerinnya pakai hati ya, jangan pakai telinga 😆❤️</p>
+        <div class="vinyl" id="vinyl" onclick="toggleVinyl()">
+            <div class="vinyl-center">U & K</div>
+        </div>
+        <p style="font-size: 0.8rem; opacity: 0.6;">ketuk piringan hitam buat muter lagunya 🎵</p>
+        <button class="btn" id="btn-vinyl" style="display:none;" onclick="nextScreen(5)">lanjut ➔</button>
+    </div>
+
+    <!-- SCREEN 5 -->
+    <div class="screen" id="screen5">
+        <p style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 10px;">sebelum tiup lilin, baca yang tadi nggak muat di chat.</p>
+        <div class="card-note" id="note-card"></div>
+        <button class="btn" onclick="nextNote()">lanjut ➔</button>
+    </div>
+
+    <!-- SCREEN 6 -->
+    <div class="screen" id="screen6">
+        <p style="font-size: 0.85rem; opacity: 0.7;" id="cake-instruction">sst... lilinnya lagi dinyalain 🔥</p>
+        
+        <div class="cake-container" id="cake-touch-area">
+            <div class="match-wrapper" id="matchContainer">
+                <div class="match-stick">
+                    <div class="match-head"></div>
+                    <div class="match-fire" id="matchFire"></div>
+                </div>
+            </div>
+
+            <div class="candles-number-wrapper">
+                <div class="candle-digit">
+                    <div class="candle-flame" id="flame1"></div>
+                    2
+                </div>
+                <div class="candle-digit">
+                    <div class="candle-flame" id="flame2"></div>
+                    0
+                </div>
+            </div>
+
+            <div class="cake-graphic">🎂</div>
+        </div>
+
+        <p style="font-size: 0.85rem; color: #fbc531;" id="cake-status-text">menyiapkan korek api...</p>
+    </div>
+
+    <!-- SCREEN 7 (MAKE A WISH) -->
+    <div class="screen" id="screen7">
+        <p class="cursive" style="font-size: 2.2rem; color: #fbc531;" id="wish-title">sebutin semua harapanmuu yangg... biar aku yang bantu aminkan ✨</p>
+        
+        <div class="wish-container" id="wish-touch-area">
+            <svg class="svg-ring">
+                <circle class="circle-bg" cx="60" cy="60" r="54"></circle>
+                <circle class="circle-progress" id="wish-progress" cx="60" cy="60" r="54"></circle>
+            </svg>
+            <div class="heart-icon" id="heart-icon">🤍</div>
+        </div>
+
+        <p style="font-size: 0.8rem; opacity: 0.6;" id="wish-status">tahan hatinya sambil sebut doa terbaikmu ya...</p>
+    </div>
+
+    <!-- SCREEN 8 -->
+    <div class="screen" id="screen8">
+        <p style="font-size: 0.85rem; margin-bottom: 12px; opacity: 0.8;">ada satu surat terakhir dari Maz Kowi ❤️</p>
+        <div class="letter-box">
+            <div class="letter-title">Buat Ulin, Kanjeng Putri Ndoro Ayu-ku ❤️</div>
+            
+            <div class="letter-p">
+                Selamat ulang tahun yang ke-20 yaa...
+            </div>
+
+            <div class="letter-p">
+                Pertama-tama, makasih ya yangg udah menyempatkan waktu buat buka ruang kecil ini.
+            </div>
+
+            <div class="letter-p">
+                Makasih banyak sudah hadir dan memberi warna indah di hidupku. Walaupun di perjalanan kita kadang ada salah paham dan pergeludan, ditambah paket lengkapmu—mulai dari marah, nesuan, sampai ngambekan—semua itu justru bikin hari-hariku makin bernyawa.
+            </div>
+
+            <div class="letter-p">
+                Tapi tenang aja yangg... Mau setinggi apa pun level ngambekmu, mau seberapa sering pun kamu prengat-prengut, aku akan tetap di sini. Tetap maju buat terus memperjuangkan dan halalkan kamu.
+            </div>
+
+            <div class="letter-p">
+                Pertahankan semua sifat manismu (termasuk galakmu itu), biar aku yang imbangi dengan sabarku! 😊🥰🤍🫶
+            </div>
+
+            <div style="font-weight: 600; margin-top: 15px;">Doaku buat kamu di umur yang ke-20 ini:</div>
+            <ul class="wish-list">
+                <li>Semoga Allah selalu melimpahkan kesehatan, umur panjang yang penuh keberkahan, dan melancarkan setiap langkah urusanmu.</li>
+                <li>Semoga hatimu selalu dijaga, dibikin tenang, dan dipenuhi kebahagiaan yang melimpah.</li>
+                <li>Dan semoga jalan kita makin didekatkan sampai waktu indah yang tepat nanti.</li>
+            </ul>
+
+            <div class="letter-footer">
+                Makasih ya udah mau tumbuh, bertahan, dan berjuang sejauh ini. Mau se-random apa pun kamu, aku siap jadi tempat kamu pulang seumur hidup. Selamat ulang tahun ya, kanjeng putriku! ❤️
+                <br><br>
+                <b>- Dari Maz Kowi</b>
+            </div>
+        </div>
+
+        <button class="btn-restart" onclick="restartApp()">🔄 Ulangi Kejutan</button>
+    </div>
+
+</div>
+
+<script>
+    let currentScreen = 1;
+
+    function nextScreen(screenNumber) {
+        document.getElementById(`screen${currentScreen}`).classList.remove('active');
+        currentScreen = screenNumber;
+        document.getElementById(`screen${currentScreen}`).classList.add('active');
+
+        if (screenNumber === 6) {
+            startMatchLightingSequence();
+        }
+    }
+
+    /* Screen 1 */
+    function triggerFlowerBloom() {
+        const overlay = document.getElementById('flowerOverlay');
+        const textGroup = document.getElementById('heartTextGroup');
+        overlay.classList.add('show');
+        setTimeout(() => {
+            overlay.classList.remove('show');
+            textGroup.style.display = 'block';
+        }, 1200);
+    }
+
+    /* Screen 2 */
+    function turnOnLight() {
+        document.getElementById('screen2').style.background = '#151c2e';
+        document.getElementById('dark-text').innerText = 'Nah, terang kan! ✨';
+        setTimeout(() => nextScreen(3), 2500);
+    }
+
+    /* Screen 4 */
+    function toggleVinyl() {
+        const vinyl = document.getElementById('vinyl');
+        const bgMusic = document.getElementById('bgMusic');
+        
+        vinyl.classList.toggle('spinning');
+        
+        if (vinyl.classList.contains('spinning')) {
+            bgMusic.play().catch(() => {});
+        } else {
+            bgMusic.pause();
+        }
+        
+        document.getElementById('btn-vinyl').style.display = 'block';
+    }
+
+    /* Screen 5 */
+    const notes = [
+        "<b>CATATAN KECIL 1</b><br><br>Gimana tadi nyanyiannya? Telinga kamu masih aman kan, yangg? Maaf ya kalau agak fals, tapi itu murni 100% usaha dan ketulusan Maz Kowi khusus buat kamu! 😆❤️",
+        "<b>CATATAN KECIL 2</b><br><br>Kamu bukan orang yang aku ingat karena tanggal. Kamu orang yang bikin tanggal ini ikut penting.",
+        "<b>CATATAN KECIL 3</b><br><br>Jadi malam ini, jangan merasa sendiri ya. Ini ruang kecil yang aku siapin diam-diam, khusus cuma buat kamu."
+    ];
+    let currentNote = 0;
+    const noteCard = document.getElementById('note-card');
+    noteCard.innerHTML = notes[0];
+
+    function nextNote() {
+        currentNote++;
+        if (currentNote < notes.length) {
+            noteCard.innerHTML = notes[currentNote];
+        } else {
+            nextScreen(6);
+        }
+    }
+
+    /* Screen 6 */
+    let isLit = false;
+
+    function startMatchLightingSequence() {
+        const match = document.getElementById('matchContainer');
+        const matchFire = document.getElementById('matchFire');
+        const flame1 = document.getElementById('flame1');
+        const flame2 = document.getElementById('flame2');
+        const statusText = document.getElementById('cake-status-text');
+
+        isLit = false;
+        flame1.style.opacity = '0';
+        flame2.style.opacity = '0';
+        matchFire.style.opacity = '0';
+        
+        statusText.innerText = "menyiapkan korek api...";
+
+        setTimeout(() => { match.className = "match-wrapper show-entry"; }, 400);
+        setTimeout(() => { match.className = "match-wrapper show-entry strike-strike"; statusText.innerText = "srek... srek... 🪵"; }, 1200);
+        setTimeout(() => { matchFire.style.opacity = '1'; statusText.innerText = "koreknya menyala! 🔥"; }, 1800);
+        setTimeout(() => { match.className = "match-wrapper light-digit-2"; }, 2400);
+        setTimeout(() => { flame1.style.opacity = '1'; }, 3000);
+        setTimeout(() => { match.className = "match-wrapper light-digit-0"; }, 3600);
+        setTimeout(() => { flame2.style.opacity = '1'; }, 4200);
+        setTimeout(() => {
+            matchFire.style.opacity = '0';
+            match.className = "match-wrapper fade-away";
+            statusText.innerText = "tekan & tahan buat tiup lilinnya pelan-pelan 🌬️";
+            isLit = true;
+        }, 4800);
+    }
+
+    const cakeArea = document.getElementById('cake-touch-area');
+    const flame1 = document.getElementById('flame1');
+    const flame2 = document.getElementById('flame2');
+    const cakeStatusText = document.getElementById('cake-status-text');
+    
+    let blowInterval;
+    let blowProgress = 100;
+
+    function createSmoke(x, y) {
+        const smoke = document.createElement('div');
+        smoke.className = 'smoke';
+        smoke.style.left = `${x}px`;
+        smoke.style.top = `${y}px`;
+        cakeArea.appendChild(smoke);
+        setTimeout(() => smoke.remove(), 1200);
+    }
+
+    function startBlow(e) {
+        if (!isLit) return;
+        if (e && e.cancelable) e.preventDefault();
+        clearInterval(blowInterval);
+        
+        cakeStatusText.innerText = 'terus... jangan dilepas 🌬️';
+
+        blowInterval = setInterval(() => {
+            blowProgress -= 5;
+            let scale = blowProgress / 100;
+            let opacity = blowProgress / 100;
+
+            flame1.style.transform = `scale(${scale})`;
+            flame1.style.opacity = opacity;
+            flame2.style.transform = `scale(${scale})`;
+            flame2.style.opacity = opacity;
+
+            if (blowProgress % 15 === 0) {
+                createSmoke(115, 30);
+                createSmoke(145, 30);
+            }
+
+            if (blowProgress <= 0) {
+                clearInterval(blowInterval);
+                cakeStatusText.innerText = 'Lilinnya udah padam! 🎉';
+                setTimeout(() => nextScreen(7), 900);
+            }
+        }, 70);
+    }
+
+    function cancelBlow(e) {
+        if (!isLit) return;
+        if (e && e.cancelable) e.preventDefault();
+        if (blowProgress <= 0) return;
+
+        clearInterval(blowInterval);
+        blowProgress = 100;
+        flame1.style.transform = 'scale(1)';
+        flame1.style.opacity = '1';
+        flame2.style.transform = 'scale(1)';
+        flame2.style.opacity = '1';
+        cakeStatusText.innerText = 'tekan & tahan buat tiup lilinnya pelan-pelan 🌬️';
+    }
+
+    cakeArea.addEventListener('touchstart', startBlow, {passive: false});
+    cakeArea.addEventListener('touchend', cancelBlow, {passive: false});
+    cakeArea.addEventListener('mousedown', startBlow);
+    cakeArea.addEventListener('mouseup', cancelBlow);
+    cakeArea.addEventListener('mouseleave', cancelBlow);
+
+    /* Screen 7 - Make A Wish */
+    const wishArea = document.getElementById('wish-touch-area');
+    const wishProgress = document.getElementById('wish-progress');
+    const heartIcon = document.getElementById('heart-icon');
+    const wishStatus = document.getElementById('wish-status');
+    const wishTitle = document.getElementById('wish-title');
+    
+    let wishInterval;
+    let wishPercent = 0;
+    const totalCircumference = 339.29;
+
+    function startWish(e) {
+        if (e && e.cancelable) e.preventDefault();
+        clearInterval(wishInterval);
+        
+        heartIcon.innerText = '❤️';
+        heartIcon.style.transform = 'scale(1.25)';
+
+        wishInterval = setInterval(() => {
+            wishPercent += 0.5;
+            const offset = totalCircumference - (wishPercent / 100) * totalCircumference;
+            wishProgress.style.strokeDashoffset = offset;
+
+            if (wishPercent >= 100) {
+                clearInterval(wishInterval);
+                
+                wishTitle.innerText = 'Aamiin... Semoga semua doamu pelan-pelan dikabulkan ya ❤️';
+                wishStatus.innerText = 'Aku ikut aminkan dari sini. Doamu sudah disimpan rapi... ✨';
+                
+                setTimeout(() => nextScreen(8), 3500);
+            }
+        }, 40);
+    }
+
+    function cancelWish(e) {
+        if (e && e.cancelable) e.preventDefault();
+        if (wishPercent >= 100) return;
+
+        clearInterval(wishInterval);
+        wishPercent = 0;
+        wishProgress.style.strokeDashoffset = totalCircumference;
+        heartIcon.innerText = '🤍';
+        heartIcon.style.transform = 'scale(1)';
+    }
+
+    wishArea.addEventListener('touchstart', startWish, {passive: false});
+    wishArea.addEventListener('touchend', cancelWish, {passive: false});
+    wishArea.addEventListener('mousedown', startWish);
+    wishArea.addEventListener('mouseup', cancelWish);
+    wishArea.addEventListener('mouseleave', cancelWish);
+
+    /* Restart Application */
+    function restartApp() {
+        document.getElementById(`screen${currentScreen}`).classList.remove('active');
+        currentScreen = 1;
+        document.getElementById('screen1').classList.add('active');
+        
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+        
+        const vinyl = document.getElementById('vinyl');
+        if (vinyl) vinyl.classList.remove('spinning');
+    }
+</script>
+
+</body>
+</html>

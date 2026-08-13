@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;1,300&family=Sacramento&display=swap" rel="stylesheet">
 
+    <!-- Canvas Confetti Library untuk Efek Kejutan Meledak -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -149,13 +152,44 @@
             color: #333;
         }
 
-        /* Screen 3 */
+        /* --- SCREEN 3 (EFEK KEJUTAN MELEDAK) --- */
         .banner-box {
             background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 16px;
             padding: 30px 20px;
             width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .surprise-pop {
+            animation: popSurprise 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .age-number {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #fbc531;
+            line-height: 1;
+            margin: 10px 0;
+            text-shadow: 0 0 20px rgba(251, 197, 49, 0.6);
+            display: inline-block;
+            animation: bounceAge 1.2s ease-out infinite alternate;
+        }
+
+        /* Flash Lampu Kilat Saat Masuk Layar 3 */
+        .flash-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        .flash-overlay.active {
+            animation: flashAnim 0.5s ease-out;
         }
 
         /* Screen 4 */
@@ -312,7 +346,7 @@
             animation: riseSmoke 1.2s ease-out forwards;
         }
 
-        /* Screen 7 */
+        /* --- SCREEN 7 --- */
         .wish-container {
             position: relative;
             width: 120px; height: 120px;
@@ -325,86 +359,121 @@
         .circle-progress {
             fill: none; stroke: #fbc531; stroke-width: 4;
             stroke-dasharray: 339.29; stroke-dashoffset: 339.29; stroke-linecap: round;
+            transition: stroke 0.3s ease, filter 0.3s ease;
+        }
+
+        .circle-progress.completed {
+            stroke: #ffeaa7;
+            filter: drop-shadow(0 0 18px #fbc531) drop-shadow(0 0 30px #ffbe3b);
         }
 
         .heart-icon { font-size: 2.2rem; z-index: 2; transition: transform 0.3s ease; }
 
-        /* Screen 8 */
+        .heart-icon.burst {
+            animation: heartBurst 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .pop-heart {
+            position: absolute;
+            pointer-events: none;
+            font-size: 1.8rem;
+            animation: popAndFade 1.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            z-index: 20;
+        }
+
+        /* --- SCREEN 8 --- */
+        .scroll-hint {
+            font-size: 0.75rem;
+            color: #fbc531;
+            margin-bottom: 8px;
+            font-weight: 600;
+            animation: bounce 1.5s infinite;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: opacity 0.3s ease;
+        }
+
         .letter-box {
             background: #fff8eb; color: #2c3e50; padding: 22px; border-radius: 12px;
-            text-align: left; max-height: 60vh; overflow-y: auto; font-size: 0.9rem; line-height: 1.8;
+            text-align: left; max-height: 55vh; overflow-y: auto; font-size: 0.9rem; line-height: 1.8;
             border-left: 4px solid #e17055;
             user-select: text; -webkit-user-select: text;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            scroll-behavior: smooth;
+            mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            transition: mask-image 0.3s, -webkit-mask-image 0.3s;
         }
 
-        .letter-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #d63031;
-            margin-bottom: 12px;
+        .letter-box.scrolled-bottom {
+            mask-image: none;
+            -webkit-mask-image: none;
         }
 
-        .letter-p {
-            margin-bottom: 12px;
-        }
+        .letter-title { font-size: 1.1rem; font-weight: 600; color: #d63031; margin-bottom: 12px; }
+        .letter-p { margin-bottom: 12px; }
 
-        .wish-list {
-            margin: 10px 0 15px 0;
-            padding-left: 0;
-            list-style: none;
-        }
+        .wish-list { margin: 10px 0 15px 0; padding-left: 0; list-style: none; }
+        .wish-list li { position: relative; padding-left: 18px; margin-bottom: 8px; }
+        .wish-list li::before { content: '•'; position: absolute; left: 0; color: #e17055; font-weight: bold; }
 
-        .wish-list li {
-            position: relative;
-            padding-left: 18px;
-            margin-bottom: 8px;
-        }
-
-        .wish-list li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: #e17055;
-            font-weight: bold;
-        }
-
-        .letter-footer {
-            margin-top: 15px;
-            font-style: italic;
-            color: #636e72;
-            border-top: 1px dashed #dfe6e9;
-            padding-top: 10px;
-        }
+        .letter-footer { margin-top: 15px; font-style: italic; color: #636e72; border-top: 1px dashed #dfe6e9; padding-top: 10px; }
 
         .btn-restart {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.4);
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: transparent; border: 1px solid rgba(255,255,255,0.4); color: #ffffff;
+            padding: 10px 20px; border-radius: 20px; font-size: 0.8rem; margin-top: 15px;
+            cursor: pointer; transition: all 0.5s ease; display: none; opacity: 0;
         }
 
-        .btn-restart:hover {
-            background: rgba(255,255,255,0.1);
-        }
+        .btn-restart.show { display: inline-block; opacity: 1; }
+        .btn-restart:hover { background: rgba(255,255,255,0.1); }
 
+        /* KEYFRAMES ANIMASI */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         @keyframes flicker { 0% { transform: scale(1) rotate(-1deg); } 100% { transform: scale(1.05) rotate(1deg); } }
         @keyframes riseSmoke { 0% { transform: translateY(0) scale(1); opacity: 0.8; } 100% { transform: translateY(-50px) scale(3); opacity: 0; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
+        @keyframes flashAnim {
+            0% { opacity: 0.9; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes popSurprise {
+            0% { transform: scale(0.1); opacity: 0; }
+            70% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes bounceAge {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-8px) scale(1.05); }
+        }
+
+        @keyframes heartBurst {
+            0% { transform: scale(1.25); }
+            40% { transform: scale(2.8); }
+            100% { transform: scale(1.4); }
+        }
+
+        @keyframes popAndFade {
+            0% { transform: translate(0, 0) scale(0.2) rotate(0deg); opacity: 1; }
+            50% { opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.8) rotate(var(--rot)); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- Audio Background Musik (Link Raw + Tanpa Loop) -->
+    <!-- Flash Overlay buat efek lampu jepret kaget -->
+    <div class="flash-overlay" id="flashOverlay"></div>
+
+    <!-- Audio Background Musik -->
     <audio id="bgMusic" src="https://raw.githubusercontent.com/srkw7-abc/hbd-ulinn/main/Ulangtahun.m4a"></audio>
 
     <div class="flower-bg-overlay" id="flowerOverlay">🌸🪻🪷🌼🌺</div>
@@ -434,14 +503,14 @@
         <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.6;">coba nyalain lampunya</p>
     </div>
 
-    <!-- SCREEN 3 -->
+    <!-- SCREEN 3 (SURPRISE LAYAR MELEDAK) -->
     <div class="screen" id="screen3">
-        <div class="banner-box">
-            <p style="font-size: 0.8rem; letter-spacing: 2px; color: #fbc531; font-weight: 600; text-transform: uppercase;">✨ surprisee!! ✨</p>
-            <p style="font-size: 0.85rem; opacity: 0.8; color: #d1ccc0; letter-spacing: 1px; margin-top: 4px;">untukmu yangg</p>
-            <h2 class="cursive" style="font-size: 2.2rem; color: #ffffff; margin-top: 2px;">ulinn ke-</h2>
-            <div style="font-size: 4.5rem; font-weight: 700; color: #fbc531; line-height: 1; margin: 5px 0;">20</div>
-            <p style="font-size: 0.85rem; opacity: 0.8; color: #d1ccc0; letter-spacing: 1px;">ini harimuu</p>
+        <div class="banner-box surprise-pop" id="surpriseBox">
+            <p style="font-size: 0.85rem; letter-spacing: 2px; color: #fbc531; font-weight: 700; text-transform: uppercase;">✨ SURPRISEEE!! ✨</p>
+            <p style="font-size: 0.85rem; opacity: 0.8; color: #d1ccc0; letter-spacing: 1px; margin-top: 6px;">untukmu yangg</p>
+            <h2 class="cursive" style="font-size: 2.4rem; color: #ffffff; margin-top: 2px;">ulinn ke-</h2>
+            <div class="age-number">20</div>
+            <p style="font-size: 0.9rem; opacity: 0.9; color: #ffeaa7; letter-spacing: 1px; font-weight: 600;">🎉 INI HARIMUU!! 🎉</p>
         </div>
         <button class="btn" onclick="nextScreen(4)">lanjut ➔</button>
     </div>
@@ -509,8 +578,13 @@
 
     <!-- SCREEN 8 -->
     <div class="screen" id="screen8">
-        <p style="font-size: 0.85rem; margin-bottom: 12px; opacity: 0.8;">ada satu surat terakhir dari Maz Kowi ❤️</p>
-        <div class="letter-box">
+        <p style="font-size: 0.85rem; margin-bottom: 4px; opacity: 0.8;">ada satu surat terakhir dari Maz Kowi ❤️</p>
+        
+        <div class="scroll-hint" id="scrollHint">
+            <span>👇 scroll kotaknya ke bawah ya yangg...</span>
+        </div>
+
+        <div class="letter-box" id="letterBox">
             <div class="letter-title">Buat Ulin, Kanjeng Putri Ndoro Ayu-ku ❤️</div>
             
             <div class="letter-p">
@@ -547,7 +621,7 @@
             </div>
         </div>
 
-        <button class="btn-restart" onclick="restartApp()">🔄 Ulangi Kejutan</button>
+        <button class="btn-restart" id="btnRestart" onclick="restartApp()">🔄 Ulangi Kejutan</button>
     </div>
 
 </div>
@@ -560,7 +634,9 @@
         currentScreen = screenNumber;
         document.getElementById(`screen${currentScreen}`).classList.add('active');
 
-        if (screenNumber === 6) {
+        if (screenNumber === 3) {
+            triggerSurpriseEffect();
+        } else if (screenNumber === 6) {
             startMatchLightingSequence();
         }
     }
@@ -580,7 +656,39 @@
     function turnOnLight() {
         document.getElementById('screen2').style.background = '#151c2e';
         document.getElementById('dark-text').innerText = 'Nah, terang kan! ✨';
-        setTimeout(() => nextScreen(3), 2500);
+        setTimeout(() => nextScreen(3), 2000);
+    }
+
+    /* SCREEN 3 - SURPRISE BOOM EFFECT (CONFETTI & FLASH) */
+    function triggerSurpriseEffect() {
+        const flash = document.getElementById('flashOverlay');
+        flash.classList.add('active');
+        setTimeout(() => flash.classList.remove('active'), 500);
+
+        // Meledakkan Confetti (Efek Kaget Kertas Warna-warni)
+        if (typeof confetti === 'function') {
+            // Ledakan Kiri & Kanan
+            confetti({
+                particleCount: 80,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            setTimeout(() => {
+                confetti({
+                    particleCount: 100,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 100,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+            }, 250);
+        }
     }
 
     /* Screen 4 */
@@ -717,7 +825,7 @@
     cakeArea.addEventListener('mouseup', cancelBlow);
     cakeArea.addEventListener('mouseleave', cancelBlow);
 
-    /* Screen 7 - Make A Wish */
+    /* --- SCREEN 7 - MAKE A WISH --- */
     const wishArea = document.getElementById('wish-touch-area');
     const wishProgress = document.getElementById('wish-progress');
     const heartIcon = document.getElementById('heart-icon');
@@ -728,6 +836,33 @@
     let wishPercent = 0;
     const totalCircumference = 339.29;
 
+    function createHeartBurst() {
+        const symbols = ['❤️', '✨', '💖', '⭐', '🤍', '🎉', '💥'];
+        const totalParticles = 28;
+
+        for (let i = 0; i < totalParticles; i++) {
+            setTimeout(() => {
+                const particle = document.createElement('span');
+                particle.className = 'pop-heart';
+                particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                const angle = (i / totalParticles) * (2 * Math.PI) + (Math.random() * 0.5);
+                const distance = 120 + Math.random() * 80; 
+                const tx = Math.cos(angle) * distance + 'px';
+                const ty = Math.sin(angle) * distance + 'px';
+                const rot = (Math.random() * 360 - 180) + 'deg';
+                
+                particle.style.setProperty('--tx', tx);
+                particle.style.setProperty('--ty', ty);
+                particle.style.setProperty('--rot', rot);
+                
+                wishArea.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 1400);
+            }, Math.random() * 200); 
+        }
+    }
+
     function startWish(e) {
         if (e && e.cancelable) e.preventDefault();
         clearInterval(wishInterval);
@@ -736,13 +871,17 @@
         heartIcon.style.transform = 'scale(1.25)';
 
         wishInterval = setInterval(() => {
-            wishPercent += 0.5;
+            wishPercent += 0.8;
             const offset = totalCircumference - (wishPercent / 100) * totalCircumference;
             wishProgress.style.strokeDashoffset = offset;
 
             if (wishPercent >= 100) {
                 clearInterval(wishInterval);
                 
+                wishProgress.classList.add('completed');
+                heartIcon.classList.add('burst');
+                createHeartBurst();
+
                 wishTitle.innerText = 'Aamiin... Semoga semua doamu pelan-pelan dikabulkan ya ❤️';
                 wishStatus.innerText = 'Aku ikut aminkan dari sini. Doamu sudah disimpan rapi... ✨';
                 
@@ -758,6 +897,8 @@
         clearInterval(wishInterval);
         wishPercent = 0;
         wishProgress.style.strokeDashoffset = totalCircumference;
+        wishProgress.classList.remove('completed');
+        heartIcon.classList.remove('burst');
         heartIcon.innerText = '🤍';
         heartIcon.style.transform = 'scale(1)';
     }
@@ -767,6 +908,21 @@
     wishArea.addEventListener('mousedown', startWish);
     wishArea.addEventListener('mouseup', cancelWish);
     wishArea.addEventListener('mouseleave', cancelWish);
+
+    /* --- SCREEN 8 LOGIC --- */
+    const letterBox = document.getElementById('letterBox');
+    const btnRestart = document.getElementById('btnRestart');
+    const scrollHint = document.getElementById('scrollHint');
+
+    if (letterBox) {
+        letterBox.addEventListener('scroll', () => {
+            if (letterBox.scrollTop + letterBox.clientHeight >= letterBox.scrollHeight - 15) {
+                btnRestart.classList.add('show');
+                letterBox.classList.add('scrolled-bottom');
+                if (scrollHint) scrollHint.style.opacity = '0';
+            }
+        });
+    }
 
     /* Restart Application */
     function restartApp() {
@@ -780,6 +936,22 @@
         
         const vinyl = document.getElementById('vinyl');
         if (vinyl) vinyl.classList.remove('spinning');
+
+        wishPercent = 0;
+        wishProgress.style.strokeDashoffset = totalCircumference;
+        wishProgress.classList.remove('completed');
+        heartIcon.classList.remove('burst');
+        heartIcon.innerText = '🤍';
+        heartIcon.style.transform = 'scale(1)';
+        wishTitle.innerText = 'sebutin semua harapanmuu yangg... biar aku yang bantu aminkan ✨';
+        wishStatus.innerText = 'tahan hatinya sambil sebut doa terbaikmu ya...';
+
+        if (btnRestart) btnRestart.classList.remove('show');
+        if (letterBox) {
+            letterBox.scrollTop = 0;
+            letterBox.classList.remove('scrolled-bottom');
+        }
+        if (scrollHint) scrollHint.style.opacity = '1';
     }
 </script>
 

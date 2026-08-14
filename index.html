@@ -124,25 +124,6 @@
             animation: pulse 2s infinite ease-in-out;
         }
 
-        .flower-bg-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, #89c4f4 0%, #192a56 100%);
-            opacity: 0;
-            transition: opacity 1s ease;
-            z-index: 1;
-            pointer-events: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 8rem;
-            overflow: hidden;
-        }
-
-        .flower-bg-overlay.show {
-            opacity: 0.9;
-        }
-
         /* Screen 2 */
         .switch-btn {
             width: 60px; height: 60px; background: #fff; border-radius: 12px;
@@ -152,7 +133,7 @@
             color: #333;
         }
 
-        /* --- SCREEN 3 (EFEK KEJUTAN MELEDAK) --- */
+        /* --- SCREEN 3 --- */
         .banner-box {
             background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
             border: 1px solid rgba(255,255,255,0.1);
@@ -178,7 +159,6 @@
             animation: bounceAge 1.2s ease-out infinite alternate;
         }
 
-        /* Flash Lampu Kilat Saat Masuk Layar 3 */
         .flash-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -470,13 +450,8 @@
 
 <div class="container">
 
-    <!-- Flash Overlay buat efek lampu jepret kaget -->
     <div class="flash-overlay" id="flashOverlay"></div>
-
-    <!-- Audio Background Musik -->
     <audio id="bgMusic" src="https://raw.githubusercontent.com/srkw7-abc/hbd-ulinn/main/Ulangtahun.m4a"></audio>
-
-    <div class="flower-bg-overlay" id="flowerOverlay">🌸🪻🪷🌼🌺</div>
 
     <!-- SCREEN 1 -->
     <div class="screen active" id="screen1">
@@ -503,7 +478,7 @@
         <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.6;">coba nyalain lampunya</p>
     </div>
 
-    <!-- SCREEN 3 (SURPRISE LAYAR MELEDAK) -->
+    <!-- SCREEN 3 -->
     <div class="screen" id="screen3">
         <div class="banner-box surprise-pop" id="surpriseBox">
             <p style="font-size: 0.85rem; letter-spacing: 2px; color: #fbc531; font-weight: 700; text-transform: uppercase;">✨ SURPRISEEE!! ✨</p>
@@ -561,7 +536,7 @@
         <p style="font-size: 0.85rem; color: #fbc531;" id="cake-status-text">menyiapkan korek api...</p>
     </div>
 
-    <!-- SCREEN 7 (MAKE A WISH) -->
+    <!-- SCREEN 7 -->
     <div class="screen" id="screen7">
         <p class="cursive" style="font-size: 2.2rem; color: #fbc531;" id="wish-title">sebutin semua harapanmuu yangg... biar aku yang bantu aminkan ✨</p>
         
@@ -638,18 +613,56 @@
             triggerSurpriseEffect();
         } else if (screenNumber === 6) {
             startMatchLightingSequence();
+        } else if (screenNumber === 8) {
+            checkScrollRequirement();
         }
     }
 
-    /* Screen 1 */
+    /* SCREEN 1 - EFEK BUNGA MELEDAK SUPER BANYAK & RAPAT */
     function triggerFlowerBloom() {
-        const overlay = document.getElementById('flowerOverlay');
         const textGroup = document.getElementById('heartTextGroup');
-        overlay.classList.add('show');
+        const flowerList = ['🌸', '🌺', '🌼', '🪷', '🌻', '💐', '✨', '❤️', '🌹', '🌷'];
+
+        function createFlowerWave(totalFlowers, speedDuration, minDist, maxDist) {
+            for (let i = 0; i < totalFlowers; i++) {
+                const flower = document.createElement('div');
+                flower.innerText = flowerList[Math.floor(Math.random() * flowerList.length)];
+                
+                flower.style.position = 'fixed';
+                flower.style.left = '50%';
+                flower.style.top = '45%';
+                flower.style.fontSize = (Math.random() * 2.2 + 1.0) + 'rem';
+                flower.style.pointerEvents = 'none';
+                flower.style.zIndex = '9999';
+                flower.style.transition = `all ${speedDuration}s cubic-bezier(0.05, 0.7, 0.1, 1)`;
+                flower.style.opacity = '1';
+                
+                document.body.appendChild(flower);
+
+                const angle = (i / totalFlowers) * (2 * Math.PI) + (Math.random() * 0.8 - 0.4);
+                const distance = Math.random() * (maxDist - minDist) + minDist; 
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const rot = (Math.random() * 1080 - 540) + 'deg';
+
+                requestAnimationFrame(() => {
+                    flower.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}) scale(1.6)`;
+                    flower.style.opacity = '0';
+                });
+
+                setTimeout(() => {
+                    flower.remove();
+                }, speedDuration * 1000);
+            }
+        }
+
+        createFlowerWave(50, 2.5, 80, 220);
+        setTimeout(() => { createFlowerWave(45, 2.8, 180, 360); }, 300);
+        setTimeout(() => { createFlowerWave(35, 3.0, 50, 300); }, 700);
+
         setTimeout(() => {
-            overlay.classList.remove('show');
             textGroup.style.display = 'block';
-        }, 1200);
+        }, 2000);
     }
 
     /* Screen 2 */
@@ -659,33 +672,65 @@
         setTimeout(() => nextScreen(3), 2000);
     }
 
-    /* SCREEN 3 - SURPRISE BOOM EFFECT (CONFETTI & FLASH) */
+    /* SCREEN 3 - EFEK CONFETTI BERDURASI PANJANG & MELEDAK BERKALI-KALI */
     function triggerSurpriseEffect() {
         const flash = document.getElementById('flashOverlay');
         flash.classList.add('active');
         setTimeout(() => flash.classList.remove('active'), 500);
 
-        // Meledakkan Confetti (Efek Kaget Kertas Warna-warni)
         if (typeof confetti === 'function') {
-            // Ledakan Kiri & Kanan
+            // LEDAKAN UTAMA 1 (Tengah)
             confetti({
-                particleCount: 80,
-                spread: 70,
+                particleCount: 100,
+                spread: 80,
                 origin: { y: 0.6 }
             });
 
+            // LEDAKAN UTAMA 2 (Samping Kiri & Kanan)
             setTimeout(() => {
                 confetti({
-                    particleCount: 100,
+                    particleCount: 80,
                     angle: 60,
-                    spread: 55,
-                    origin: { x: 0 }
+                    spread: 60,
+                    origin: { x: 0, y: 0.6 }
                 });
                 confetti({
-                    particleCount: 100,
+                    particleCount: 80,
                     angle: 120,
-                    spread: 55,
-                    origin: { x: 1 }
+                    spread: 60,
+                    origin: { x: 1, y: 0.6 }
+                });
+            }, 300);
+
+            // LEDAKAN LINTAS ATAS (Atas Kiri & Atas Kanan)
+            setTimeout(() => {
+                confetti({
+                    particleCount: 90,
+                    spread: 100,
+                    origin: { x: 0.5, y: 0.3 }
+                });
+            }, 800);
+
+            // HUJAN CONFETTI BERKELANJUTAN (Berlangsung selama 4.5 detik penuh)
+            const duration = 4500;
+            const animationEnd = Date.now() + duration;
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 30 * (timeLeft / duration);
+                
+                // Hujan dari acak kiri & kanan atas
+                confetti({
+                    particleCount: Math.ceil(particleCount),
+                    startVelocity: 30,
+                    spread: 360,
+                    ticks: 60,
+                    origin: { x: Math.random(), y: Math.random() - 0.2 }
                 });
             }, 250);
         }
@@ -800,6 +845,7 @@
             if (blowProgress <= 0) {
                 clearInterval(blowInterval);
                 cakeStatusText.innerText = 'Lilinnya udah padam! 🎉';
+                if (navigator.vibrate) navigator.vibrate(150);
                 setTimeout(() => nextScreen(7), 900);
             }
         }, 70);
@@ -825,7 +871,7 @@
     cakeArea.addEventListener('mouseup', cancelBlow);
     cakeArea.addEventListener('mouseleave', cancelBlow);
 
-    /* --- SCREEN 7 - MAKE A WISH --- */
+    /* --- SCREEN 7 --- */
     const wishArea = document.getElementById('wish-touch-area');
     const wishProgress = document.getElementById('wish-progress');
     const heartIcon = document.getElementById('heart-icon');
@@ -885,6 +931,7 @@
                 wishTitle.innerText = 'Aamiin... Semoga semua doamu pelan-pelan dikabulkan ya ❤️';
                 wishStatus.innerText = 'Aku ikut aminkan dari sini. Doamu sudah disimpan rapi... ✨';
                 
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
                 setTimeout(() => nextScreen(8), 3500);
             }
         }, 40);
@@ -909,10 +956,20 @@
     wishArea.addEventListener('mouseup', cancelWish);
     wishArea.addEventListener('mouseleave', cancelWish);
 
-    /* --- SCREEN 8 LOGIC --- */
+    /* --- SCREEN 8 --- */
     const letterBox = document.getElementById('letterBox');
     const btnRestart = document.getElementById('btnRestart');
     const scrollHint = document.getElementById('scrollHint');
+
+    function checkScrollRequirement() {
+        if (letterBox) {
+            if (letterBox.scrollHeight <= letterBox.clientHeight + 10) {
+                btnRestart.classList.add('show');
+                letterBox.classList.add('scrolled-bottom');
+                if (scrollHint) scrollHint.style.opacity = '0';
+            }
+        }
+    }
 
     if (letterBox) {
         letterBox.addEventListener('scroll', () => {

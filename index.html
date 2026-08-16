@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Untuk Ulin ❤️</title>
 
-    <!-- Google Fonts: Poppins & Sacramento -->
+    <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;1,300&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap" rel="stylesheet">
 
     <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -31,7 +31,7 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .container {
@@ -67,11 +67,11 @@
         }
 
         .cursive {
-            font-family: 'Sacramento', cursive;
-            font-size: 3.5rem;
-            line-height: 1.1;
-            letter-spacing: 1px;
-            font-weight: 400;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .sub-title {
@@ -94,6 +94,8 @@
             margin-top: 25px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(140, 67, 81, 0.4);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
         }
 
         .btn:active {
@@ -196,18 +198,170 @@
             animation: flashAnim 0.5s ease-out;
         }
 
-        /* SCREEN 4 */
-        .vinyl {
-            width: 170px; height: 170px;
-            background: repeating-radial-gradient(#111, #111 6px, #222 7px, #222 8px);
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            margin: 20px 0; border: 4px solid #333; cursor: pointer;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-            transition: transform 0.3s ease;
+        /* SCREEN 4 (TURNTABLE / PEMUTAR PIRINGAN HITAM ESTETIK) */
+        .turntable-wrapper {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #2b2321 0%, #151110 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(209, 161, 104, 0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
+            cursor: pointer;
+            overflow: hidden;
         }
-        .vinyl:active { transform: scale(0.95); }
-        .vinyl-center { width: 50px; height: 50px; background: #8c4351; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 0.8rem; color: #fff; }
-        .spinning { animation: spin 4s linear infinite; }
+
+        /* Efek Kilau/Cahaya Halus di Pojok Box Turntable */
+        .turntable-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at top left, rgba(255,255,255,0.06), transparent 60%);
+            pointer-events: none;
+        }
+
+        .vinyl {
+            width: 205px; 
+            height: 205px;
+            background: 
+                radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 2%, transparent 3%),
+                repeating-radial-gradient(#111, #111 3px, #1a1a1a 4px, #0a0a0a 5px, #222 6px);
+            border-radius: 50%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            border: 3px solid #1a1413;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.8), inset 0 0 12px rgba(0,0,0,0.9);
+            position: relative;
+        }
+
+        /* Efek Kilau Vinyly Bergerak (Glossy Specular) */
+        .vinyl::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.03) 0deg, rgba(255,255,255,0.12) 60deg, rgba(255,255,255,0.03) 120deg, transparent 180deg, rgba(255,255,255,0.12) 240deg, rgba(255,255,255,0.03) 300deg);
+            pointer-events: none;
+        }
+
+        .vinyl-center { 
+            width: 70px; 
+            height: 70px; 
+            background: radial-gradient(circle, #a3485c 0%, #763340 100%); 
+            border-radius: 50%; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            font-weight: bold; 
+            font-size: 0.65rem; 
+            letter-spacing: 0.5px;
+            color: #fff;
+            border: 3px solid #f5cb5c;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4), inset 0 0 6px rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+
+        .vinyl-center span {
+            font-size: 0.5rem;
+            opacity: 0.85;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .spinning { 
+            animation: spin 3.5s linear infinite; 
+        }
+
+        /* Jarum Pemutar (Tonearm) yang Lebih Elegan & Proporsional */
+        .tonearm {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            width: 65px;
+            height: 110px;
+            pointer-events: none;
+            transform-origin: top right;
+            transform: rotate(-35deg);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        .tonearm.playing {
+            transform: rotate(-3deg);
+        }
+
+        .tonearm-base {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 28px;
+            height: 28px;
+            background: radial-gradient(circle, #dfe6e9 0%, #b2bec3 60%, #636e72 100%);
+            border-radius: 50%;
+            border: 2px solid #2d3436;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.6);
+        }
+
+        .tonearm-stick {
+            position: absolute;
+            top: 13px;
+            right: 12px;
+            width: 4px;
+            height: 85px;
+            background: linear-gradient(90deg, #b2bec3, #ffffff, #636e72);
+            border-radius: 2px;
+            transform-origin: top center;
+            transform: rotate(-25deg);
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .tonearm-head {
+            position: absolute;
+            bottom: 4px;
+            left: -8px;
+            width: 11px;
+            height: 18px;
+            background: linear-gradient(135deg, #2d3436, #1e272c);
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Indikator Gelombang Suara (Equalizer Kecil) saat Musik Putar */
+        .eq-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 14px;
+            margin-top: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .eq-bars.active {
+            opacity: 1;
+        }
+
+        .eq-bar {
+            width: 3px;
+            background: #fbc531;
+            border-radius: 2px;
+            animation: eqBounce 0.6s ease-in-out infinite alternate;
+        }
+
+        .eq-bar:nth-child(2) { animation-delay: 0.2s; height: 100%; }
+        .eq-bar:nth-child(3) { animation-delay: 0.4s; height: 70%; }
+        .eq-bar:nth-child(1) { animation-delay: 0.1s; height: 50%; }
+
+        @keyframes eqBounce {
+            0% { height: 4px; }
+            100% { height: 14px; }
+        }
 
         /* SCREEN 5 */
         .card-note {
@@ -309,7 +463,7 @@
             position: relative;
             font-size: 3.5rem;
             font-weight: 700;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: linear-gradient(180deg, #ffeaa7 0%, #fdcb6e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -435,6 +589,8 @@
             padding: 12px 24px; border-radius: 25px; font-size: 0.85rem; margin-top: 15px;
             cursor: pointer; transition: all 0.5s ease; display: none; opacity: 0;
             box-shadow: 0 4px 15px rgba(140, 67, 81, 0.4);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
         }
 
         .btn-restart.show { display: inline-block; opacity: 1; }
@@ -524,7 +680,7 @@
 
     <!-- SCREEN 2 -->
     <div class="screen" id="screen2">
-        <p class="cursive" id="dark-text" style="font-size: 2.2rem; transition: color 0.5s ease;">kok gelap ya yangg</p>
+        <p class="cursive" id="dark-text" style="font-size: 1.8rem; transition: color 0.5s ease;">kok gelap ya yangg</p>
         <div class="switch-btn" id="switchBtn" onclick="turnOnLight()">💡</div>
         <p id="switch-hint" style="font-size: 0.8rem; margin-top: 15px; opacity: 0.6; transition: opacity 0.5s ease;">coba nyalain lampunya</p>
     </div>
@@ -534,21 +690,44 @@
         <div class="banner-box surprise-pop" id="surpriseBox">
             <p style="font-size: 0.85rem; letter-spacing: 2px; color: #fbc531; font-weight: 700; text-transform: uppercase;">✨ SURPRISEEE!! ✨</p>
             <p style="font-size: 0.85rem; opacity: 0.8; color: #d1ccc0; letter-spacing: 1px; margin-top: 6px;">untukmu yangg</p>
-            <h2 class="cursive" style="font-size: 2.4rem; color: #ffffff; margin-top: 2px;">ulinn ke-</h2>
+            <h2 class="cursive" style="font-size: 2rem; color: #ffffff; margin-top: 2px;">ulinn ke-</h2>
             <div class="age-number">20</div>
             <p style="font-size: 0.9rem; opacity: 0.9; color: #ffeaa7; letter-spacing: 1px; font-weight: 600;">🎉 INI HARIMUU!! 🎉</p>
         </div>
         <button class="btn" onclick="nextScreen(4)">lanjut ➔</button>
     </div>
 
-    <!-- SCREEN 4 -->
+    <!-- SCREEN 4 (TURNTABLE / PEMUTAR PIRINGAN HITAM ESTETIK) -->
     <div class="screen" id="screen4">
-        <p style="font-size: 0.9rem; opacity: 0.8; padding: 0 10px;">Special performance khusus buat kanjeng putri... dengerinnya pakai hati ya, jangan pakai telinga 😆❤️</p>
-        <div class="vinyl" id="vinyl" onclick="toggleVinyl()">
-            <div class="vinyl-center">U & K</div>
+        <p style="font-size: 0.85rem; opacity: 0.8; padding: 0 10px;">Special performance khusus buat kanjeng putri... dengerinnya pakai hati ya, jangan pakai telinga 😆❤️</p>
+        
+        <div class="turntable-wrapper" onclick="toggleVinyl()">
+            <!-- Piringan Hitam Estetik dengan Kilau Glossy & Label Tengah -->
+            <div class="vinyl" id="vinyl">
+                <div class="vinyl-center">
+                    U & K
+                    <span>Vinyl</span>
+                </div>
+            </div>
+            <!-- Jarum Pemutar (Tonearm) Halus -->
+            <div class="tonearm" id="tonearm">
+                <div class="tonearm-base"></div>
+                <div class="tonearm-stick">
+                    <div class="tonearm-head"></div>
+                </div>
+            </div>
         </div>
-        <p style="font-size: 0.8rem; opacity: 0.6;" id="vinyl-hint">ketuk piringan hitam buat muter lagunya 🎵</p>
-        <button class="btn" id="btn-vinyl" style="display:none;" onclick="nextScreen(5)">lanjut ➔</button>
+
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+            <p style="font-size: 0.8rem; opacity: 0.6;" id="vinyl-hint">ketuk piringan hitam buat muter lagunya 🎵</p>
+            <div class="eq-bars" id="eqBars">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+        </div>
+
+        <button class="btn" id="btn-vinyl" style="display:none; margin-top: 15px;" onclick="nextScreen(5)">lanjut ➔</button>
     </div>
 
     <!-- SCREEN 5 -->
@@ -589,7 +768,7 @@
 
     <!-- SCREEN 7 -->
     <div class="screen" id="screen7">
-        <p class="cursive" style="font-size: 2.2rem; color: #fbc531;" id="wish-title">sebutin semua harapanmuu yangg... biar aku yang bantu aminkan ✨</p>
+        <p class="cursive" style="font-size: 1.6rem; color: #fbc531; font-weight: 600;" id="wish-title">sebutin semua harapanmuu yangg... biar aku yang bantu aminkan ✨</p>
         
         <div class="wish-container" id="wish-touch-area">
             <svg class="svg-ring">
@@ -781,27 +960,51 @@
         }
     }
 
-    /* SCREEN 4 - MUSIC & VINYL */
+    /* SCREEN 4 - MUSIC, VINYL, & TONEARM (AUTO STOP) */
+    const bgMusic = document.getElementById('bgMusic');
+    
     function toggleVinyl() {
         const vinyl = document.getElementById('vinyl');
-        const bgMusic = document.getElementById('bgMusic');
+        const tonearm = document.getElementById('tonearm');
         const vinylHint = document.getElementById('vinyl-hint');
+        const eqBars = document.getElementById('eqBars');
         
-        vinyl.classList.toggle('spinning');
-        
-        if (vinyl.classList.contains('spinning')) {
+        // Jika sedang tidak berputar, mulai putar
+        if (!vinyl.classList.contains('spinning')) {
+            vinyl.classList.add('spinning');
+            tonearm.classList.add('playing');
+            eqBars.classList.add('active');
+            
+            bgMusic.currentTime = 0; // Mulai dari awal
             bgMusic.play().then(() => {
-                vinylHint.innerText = 'Lagu lagi diputar... 🎵';
+                vinylHint.innerText = 'Lagu sedang diputar... 🎵';
             }).catch(e => {
                 console.log("Audio play deferred", e);
             });
         } else {
-            bgMusic.pause();
-            vinylHint.innerText = 'Lagu dipause ⏸️';
+            // Jika diklik saat sedang berputar (manual pause)
+            stopVinylPlayback();
         }
-        
+    }
+
+    function stopVinylPlayback() {
+        const vinyl = document.getElementById('vinyl');
+        const tonearm = document.getElementById('tonearm');
+        const vinylHint = document.getElementById('vinyl-hint');
+        const eqBars = document.getElementById('eqBars');
+
+        vinyl.classList.remove('spinning');
+        tonearm.classList.remove('playing');
+        eqBars.classList.remove('active');
+        bgMusic.pause();
+        vinylHint.innerText = 'Pemutaran selesai. Silakan lanjut ➔';
         document.getElementById('btn-vinyl').style.display = 'inline-block';
     }
+
+    // Event otomatis saat audio selesai (berhenti muter & angkat jarum otomatis)
+    bgMusic.onended = function() {
+        stopVinylPlayback();
+    };
 
     /* SCREEN 5 - NOTES */
     const notes = [
@@ -1050,13 +1253,20 @@
         darkText.style.color = '#ffffff';
         switchHint.innerText = 'coba nyalain lampunya';
         
-        // Reset Audio
-        const bgMusic = document.getElementById('bgMusic');
+        // Reset Audio & Vinyl/Tonearm
         bgMusic.pause();
         bgMusic.currentTime = 0;
         
         const vinyl = document.getElementById('vinyl');
+        const tonearm = document.getElementById('tonearm');
+        const vinylHint = document.getElementById('vinyl-hint');
+        const eqBars = document.getElementById('eqBars');
         if (vinyl) vinyl.classList.remove('spinning');
+        if (tonearm) tonearm.classList.remove('playing');
+        if (eqBars) eqBars.classList.remove('active');
+        if (vinylHint) vinylHint.innerText = 'ketuk piringan hitam buat muter lagunya 🎵';
+        const btnVinyl = document.getElementById('btn-vinyl');
+        if (btnVinyl) btnVinyl.style.display = 'none';
 
         // Reset Screen 7
         wishPercent = 0;
